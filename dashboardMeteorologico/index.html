@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard Clima</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Monitor de Clima</h1>
+            <p id="localizacao-info">Detectando posição...</p>
+        </header>
+
+        <main id="dashboard" class="hidden">
+            
+            <div id="card-temp" class="card">
+                <h2>Temperatura</h2>
+                <div class="display">
+                    <span id="temp-emoji">🌡️</span>
+                    <span id="temp-valor">--</span>°C
+                </div>
+            </div>
+
+            <div id="card-condicao" class="card">
+                <h2>Condição</h2>
+                <div class="display">
+                    <span id="condicao-emoji">❓</span>
+                    <span id="condicao-texto">--</span>
+                </div>
+            </div>
+
+        </main>
+        
+        <footer>
+            <p>Atualização automática em 60s | Última: <span id="timer">--:--</span></p>
+        </footer>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>
