@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= tituloDaPagina %></title>
+</head>
+<body>
+    <%- include('partials/header') %>
+
+    <h1>Bem vindo ao perfil de <%= nomeUsuario %>!</h1>
+
+    <p>Idade: <%= idade %> anos</p>
+
+    <% if (idade >= 18){
+        %> <p style="color: green;">Status: Usuario maior de idade</p> <%
+    } else {
+        %> <p style="color: red;">Status: Usuario menor de idade</p> <%
+    }
+    %>
+    
+    
+</body>
+</html>

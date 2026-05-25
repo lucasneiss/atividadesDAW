@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= tituloDaPagina %></title>
+</head>
+<body>
+    <%- include('partials/header') %>
+    <h1>Catálogo de Produtos</h1>
+
+    <% if (produtos.length > 0) { %>
+        
+        <ul>
+            <% produtos.forEach(function(produto) { %>
+                
+                <li>
+                    <strong><%= produto.nome %></strong> - R$ <%= produto.preco %>
+                    <button>Comprar ID: <%= produto.id %></button>
+                </li>
+            
+            <% }); %> </ul>
+
+    <% } else { %>
+        <p>Nenhum produto cadastrado no momento.</p>
+    <% } %>
+
+</body>
+</html>
