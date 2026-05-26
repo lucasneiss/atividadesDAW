@@ -1,0 +1,47 @@
+<%- include('partials/header') %>
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <h2 class="mb-4">Cadastrar Novo Jogo</h2>
+        
+        <form action="/adicionar" method="POST" class="card p-4 shadow-sm">
+            <div class="mb-3">
+                <label class="form-label">Título do Jogo</label>
+                <input type="text" name="titulo" class="form-control" placeholder="Ex: Elden Ring" required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Plataforma</label>
+                <input type="text" name="plataforma" class="form-control" placeholder="Ex: PC, PS5, Switch">
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Status</label>
+                <select name="status" class="form-select">
+                    <option value="Quero Jogar">Quero Jogar</option>
+                    <option value="Jogando">Jogando</option>
+                    <option value="Concluído">Concluído</option>
+                    <option value="Encostado">Encostado</option>
+                </select>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">Nota (0-10)</label>
+                    <input type="number" name="nota" class="form-control" min="0" max="10">
+                </div>
+                <div class="col-md-8 mb-3">
+                    <label class="form-label">URL da Capa</label>
+                    <input type="text" name="capa_url" class="form-control" placeholder="http://...">
+                </div>
+            </div>
+
+            <div class="d-grid gap-2">
+                <button type="submit" class="btn btn-success">Salvar na Coleção</button>
+                <a href="/" class="btn btn-outline-secondary">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<%- include('partials/footer') %>
