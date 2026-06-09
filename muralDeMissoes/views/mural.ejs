@@ -1,0 +1,69 @@
+<%- include('partials/header', { tituloDaPagina: 'Mural de Missões' }) %>
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>🗡️ Mural de Missões da Guilda</h1>
+    <a href="/nova-missao" class="btn btn-primary btn-lg">+ Publicar Edital</a>
+</div>
+
+
+<div class="alert alert-warning d-flex align-items-center gap-3 mb-4 shadow-sm">
+    <span style="font-size:2rem;">⭐</span>
+    <div>
+        <strong>XP Total Acumulado:</strong>
+        <span class="fs-5 ms-2"><%= totalXP %> XP</span>
+        <div class="text-muted small">Soma das missões concluídas</div>
+    </div>
+</div>
+
+<div class="row">
+    <% missoes.forEach(function(missaoAtual) { %>
+    <div class="col-md-4 mb-4">
+        <div class="card shadow-sm border-0 h-100">
+            <div class="card-body">
+                <h5 class="card-title text-primary"><%= missaoAtual.titulo %></h5>
+                <p class="card-text text-muted"><%= missaoAtual.descricao %></p>
+
+                <div class="d-flex justify-content-between align-items-center mt-3">
+                    <span class="badge bg-warning text-dark fs-6">⚔️ XP: <%= missaoAtual.recompensaXP %></span>
+
+                   
+                    <% if (missaoAtual.status === 'Concluída') { %>
+                        <span class="badge bg-success">✅ <%= missaoAtual.status %></span>
+                    <% } else { %>
+                        <span class="badge bg-secondary">🕐 <%= missaoAtual.status %></span>
+                    <% } %>
+                </div>
+
+                <hr>
+
+                <div class="d-flex justify-content-between">
+                    
+                    <% if (missaoAtual.status !== 'Concluída') { %>
+                        <form action="/concluir-missao/<%= missaoAtual.id %>" method="POST">
+                            <button class="btn btn-success btn-sm">Concluir Missão</button>
+                        </form>
+                    <% } else { %>
+                        <span></span>
+                    <% } %>
+
+    
+                    <form action="/excluir-missao/<%= missaoAtual.id %>" method="POST">
+                        <button class="btn btn-outline-danger btn-sm"
+                                onclick="return confirm('Tem certeza que deseja abandonar esta missão?')">
+                            Abandonar
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <% }); %>
+
+    <% if (missoes.length === 0) { %>
+    <div class="col-12">
+        <p class="text-center text-muted py-5">Nenhuma missão no mural. Publique um edital!</p>
+    </div>
+    <% } %>
+</div>
+
+<%- include('partials/footer') %>
