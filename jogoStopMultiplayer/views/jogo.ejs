@@ -1,0 +1,91 @@
+<div class="row g-4">
+  <div class="col-md-8">
+    <div class="card shadow border-0 p-4 mb-4">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="mb-0 fw-bold">Sala: <span class="text-muted"><%= sala %></span></h2>
+        <h3 class="mb-0">Letra: <span id="letra-atual" class="badge bg-primary fs-3">?</span></h3>
+      </div>
+
+      <div class="mb-4">
+        <button type="button" id="btn-sortear" class="btn btn-outline-secondary fw-semibold">🎲 Sortear Letra</button>
+      </div>
+      
+      <form id="form-stop">
+        <div class="mb-3">
+          <label class="form-label fw-medium">Nome</label>
+          <input type="text" class="form-control form-control-lg categoria" id="cat-nome" disabled>
+        </div>
+        <div class="mb-3">
+          <label class="form-label fw-medium">Cor</label>
+          <input type="text" class="form-control form-control-lg categoria" id="cat-cor" disabled>
+        </div>
+        <div class="mb-3">
+          <label class="form-label fw-medium">Animal</label>
+          <input type="text" class="form-control form-control-lg categoria" id="cat-animal" disabled>
+        </div>
+        
+        <div class="mt-4">
+          <button type="button" id="btn-stop" class="btn btn-danger btn-lg w-100 py-3 fw-bold shadow-sm" disabled>🛑 STOP!</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="col-md-4">
+    <div class="card shadow border-0 h-100 d-flex flex-column" style="min-height: 450px;">
+      <div class="card-header bg-dark text-white fw-bold py-3">Histórico da Sala</div>
+      <div id="caixa-chat" class="card-body flex-grow-1 overflow-auto bg-light p-3" style="height: 300px;">
+        </div>
+    </div>
+  </div>
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script>
+  const socket = io();
+  const username = "<%= username %>";
+  const sala = "<%= sala %>";
+
+  // Envia evento informando a entrada na sala
+  socket.emit('entrar_sala', { sala, username });
+
+  // Evento disparado ao clicar no botão de sortear
+  document.getElementById('btn-sortear').addEventListener('click', () => {
+    socket.emit('sortear_letra', sala);
+  });
+
+  // Recebendo a letra sorteada do servidor
+  socket.on('letra_sorteada', (letra) => {
+    document.getElementById('letra-atual').innerText = letra;
+    // Remove o bloqueio dos inputs e do botão STOP
+    document.querySelectorAll('.categoria').forEach(input => input.disabled = false);
+    document.getElementById('btn-stop').disabled = false;
+  });
+
+  // Evento disparado ao clicar no botão STOP
+  document.getElementById('btn-stop').addEventListener('click', () => {
+    socket.emit('gritar_stop', { sala, username });
+  });
+
+  // Exibe as mensagens recebidas do sistema e do chat na tela
+  socket.on('mensagem_chat', (dados) => {
+    const caixaChat = document.getElementById('caixa-chat');
+    const novaMensagem = document.createElement('div');
+    novaMensagem.className = "mb-2 small text-dark p-2 rounded bg-white border-start border-3 border-secondary shadow-sm";
+    novaMensagem.innerHTML = `<strong>${dados.username}:</strong> ${dados.texto}`;
+    caixaChat.appendChild(novaMensagem);
+    caixaChat.scrollTop = caixaChat.scrollHeight; // Auto-scroll para baixo
+  });
+
+  // Intercepta o evento fim de rodada emitido por qualquer jogador da sala
+  socket.on('fim_de_rodada', (quemGritou) => {
+    alert(`O jogador @${quemGritou} gritou STOP! Lápis na mesa!`);
+    
+    // Bloqueia as caixas de texto novamente
+    document.querySelectorAll('.categoria').forEach(input => input.disabled = true);
+    document.getElementById('btn-stop').disabled = true;
+    
+    // Lógica para envio automático de respostas futuras
+    console.log("Respostas travadas para avaliação.");
+  });
+</script>

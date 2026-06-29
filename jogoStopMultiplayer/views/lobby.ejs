@@ -1,0 +1,18 @@
+<div class="row justify-content-center">
+  <div class="col-md-8 col-lg-6">
+    <div class="card shadow border-0 p-3">
+      <div class="card-body text-center">
+        <h2 class="fw-bold mb-2">Bem-vindo, <%= username %>!</h2>
+        <p class="text-muted mb-4">Escolha uma sala existente ou crie uma nova para começar a jogar.</p>
+        
+        <form method="get" action="/jogo" class="bg-light p-4 rounded border">
+          <div class="mb-3 text-start">
+            <label for="sala" class="form-label fw-semibold small text-muted">Nome da Sala</label>
+            <input type="text" id="sala" name="sala" class="form-control form-control-lg text-center fw-bold" placeholder="Ex: sala-dos-amigos" required>
+          </div>
+          <button type="submit" class="btn btn-primary btn-lg w-100 fw-semibold shadow-sm">Entrar na Sala / Criar</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
